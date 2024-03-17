@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class TaskRepositoryImpl implements TaskRepository{
+public class TaskRepositoryImpl implements TaskRepository {
     private final DatasourceConfiguration datasourceConfiguration;
 
     public TaskRepositoryImpl(DatasourceConfiguration datasourceConfiguration) {

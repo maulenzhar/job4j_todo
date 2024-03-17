@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Service
-public class TaskServiceSimple implements TaskService{
+public class TaskServiceSimple implements TaskService {
 
     private TaskRepository taskRepository;
 
