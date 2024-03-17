@@ -3,11 +3,9 @@ package ru.job4j.todo.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.service.TaskService;
 
-import java.io.IOException;
 import java.util.stream.Collectors;
 
 @Controller
@@ -48,14 +46,9 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, Model model) {
-        try {
-            taskService.save(task);
-            return "redirect:/tasks";
-        } catch (Exception e) {
-            model.addAttribute("message", e.getMessage());
-            return "error";
-        }
+    public String create(@ModelAttribute Task task) {
+        taskService.save(task);
+        return "redirect:/tasks";
     }
 
     @GetMapping("/delete/{id}")
