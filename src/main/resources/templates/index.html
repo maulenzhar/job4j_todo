@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link th:href = "@{/css/bootstrap.css}" rel="stylesheet">
+    <script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+
+    <title>Работа мечты!</title>
+</head>
+<body>
+<div class="container-fluid p-0">
+    <div class="container mt-2">
+        <h3>Проект ToDo</h3>
+
+        <div class="row">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col">Дата создания</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="task : ${tasks}">
+                    <td th:text="${task.id}" />
+                    <td><a th:text="${task.description}" th:href="@{/tasks/{taskId}(taskId=${task.id})}"></a></td>
+                    <td th:text="${task.done == true ? 'выполнено' : 'не выполнено'}" />
+                    <td th:text="${task.created}"/>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <button type="button" class="btn btn-success">
+            <a style="color: #f7f7f7" th:href="@{/tasks/create}">Добавить задание</a>
+        </button>
+        <button type="button" class="btn btn-success">
+            <a style="color: #f7f7f7" th:href="@{/tasks}">Все</a>
+        </button>
+        <button type="button" class="btn btn-success">
+            <a style="color: #f7f7f7" th:href="@{/tasks/done}">Выполненные</a>
+        </button>
+        <button type="button" class="btn btn-success">
+            <a style="color: #f7f7f7" th:href="@{/tasks/new}">Новые</a>
+        </button>
+
+    </div>
+</div>
+</body>
+</html>
