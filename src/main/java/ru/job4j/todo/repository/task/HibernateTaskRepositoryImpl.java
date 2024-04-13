@@ -1,4 +1,4 @@
-package ru.job4j.todo.task;
+package ru.job4j.todo.repository.task;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class TaskRepositoryImpl implements TaskRepository {
+public class HibernateTaskRepositoryImpl implements ru.job4j.todo.repository.task.TaskRepository {
     private final DatasourceConfiguration datasourceConfiguration;
 
-    public TaskRepositoryImpl(DatasourceConfiguration datasourceConfiguration) {
+    public HibernateTaskRepositoryImpl(DatasourceConfiguration datasourceConfiguration) {
         this.datasourceConfiguration = datasourceConfiguration;
     }
 
