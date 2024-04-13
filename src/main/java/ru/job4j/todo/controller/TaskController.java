@@ -26,17 +26,13 @@ public class TaskController {
 
     @GetMapping("/done")
     public String getDone(Model model) {
-        model.addAttribute("tasks", taskService.findAll().stream()
-                .filter(e -> e.isDone())
-                .collect(Collectors.toList()));
+        model.addAttribute("tasks", taskService.findAllDone());
         return "index";
     }
 
     @GetMapping("/new")
     public String getNew(Model model) {
-        model.addAttribute("tasks", taskService.findAll().stream()
-                .filter(e -> !e.isDone())
-                .collect(Collectors.toList()));
+        model.addAttribute("tasks", taskService.findAllNew());
         return "index";
     }
 
@@ -63,15 +59,7 @@ public class TaskController {
 
     @GetMapping("/done/{id}")
     public String doneTask(Model model, @PathVariable int id) {
-        var taskOptional = taskService.getTaskById(id);
-        if (!taskOptional.isPresent()) {
-            model.addAttribute("message", "Задача с указанным идентификатором не найдена");
-            return "errors";
-        }
-        Task taskDone = taskService.getTaskById(taskOptional.get().getId()).get();
-        taskDone.setDone(true);
-        taskService.update(taskDone);
-        model.addAttribute("task", taskDone);
+        model.addAttribute("task", taskService.makeTaskDone(id));
         return "one-description";
     }
 

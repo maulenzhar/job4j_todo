@@ -1,4 +1,4 @@
-package ru.job4j.todo.repository;
+package ru.job4j.todo.task;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -36,19 +36,18 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public boolean update(Task task) {
         boolean result = false;
-        if (getTaskById(task.getId()).isPresent()) {
-            Session session = datasourceConfiguration.sf().openSession();
-            try {
-                session.beginTransaction();
-                session.update(task);
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                session.getTransaction().rollback();
-            } finally {
-                session.close();
-            }
+        Session session = datasourceConfiguration.sf().openSession();
+        try {
+            session.beginTransaction();
+            session.update(task);
+            session.getTransaction().commit();
             result = true;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
         }
+
         return result;
     }
 

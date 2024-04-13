@@ -15,11 +15,8 @@
 
 ## Требования к окружению
 
-- Spring Boot 3.2.2
-- Thymeleaf
-- Bootstrap v4.1.3
-- Liquibase 4.23.1
 - PostgreSQL 42.5.1
+- Maven
 
 ## Запуск
 
