@@ -1,6 +1,10 @@
 package ru.job4j.todo.repository.task;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.config.DatasourceConfiguration;
@@ -12,15 +16,15 @@ import java.util.Optional;
 
 @Repository
 public class HibernateTaskRepositoryImpl implements ru.job4j.todo.repository.task.TaskRepository {
-    private final DatasourceConfiguration datasourceConfiguration;
+    private final SessionFactory sessionFactory;
 
-    public HibernateTaskRepositoryImpl(DatasourceConfiguration datasourceConfiguration) {
-        this.datasourceConfiguration = datasourceConfiguration;
+    public HibernateTaskRepositoryImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public Task save(Task task) {
-        Session session = datasourceConfiguration.sf().openSession();
+        Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
             session.save(task);
@@ -36,7 +40,7 @@ public class HibernateTaskRepositoryImpl implements ru.job4j.todo.repository.tas
     @Override
     public boolean update(Task task) {
         boolean result = false;
-        Session session = datasourceConfiguration.sf().openSession();
+        Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
             session.update(task);
@@ -53,7 +57,7 @@ public class HibernateTaskRepositoryImpl implements ru.job4j.todo.repository.tas
 
     @Override
     public Collection<Task> findAll() {
-        Session session = datasourceConfiguration.sf().openSession();
+        Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
             Query query = session.createQuery("from Task order by id");
@@ -70,7 +74,7 @@ public class HibernateTaskRepositoryImpl implements ru.job4j.todo.repository.tas
 
     @Override
     public boolean deleteById(int id) {
-        Session session = datasourceConfiguration.sf().openSession();
+        Session session = sessionFactory.openSession();
         boolean result = false;
         try {
             session.beginTransaction();
@@ -90,7 +94,7 @@ public class HibernateTaskRepositoryImpl implements ru.job4j.todo.repository.tas
 
     @Override
     public Optional<Task> getTaskById(int id) {
-        Session session = datasourceConfiguration.sf().openSession();
+        Session session = sessionFactory.openSession();
         Optional<Task> result = Optional.empty();
         try {
             session.beginTransaction();
@@ -104,6 +108,60 @@ public class HibernateTaskRepositoryImpl implements ru.job4j.todo.repository.tas
         } finally {
             session.close();
         }
+        return result;
+    }
+
+    @Override
+    public Collection<Task> findAllNew() {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("from Task WHERE done is false order by id");
+            session.getTransaction().commit();
+            return  query.list();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+
+        return List.of();
+    }
+
+    @Override
+    public Collection<Task> findAllDone() {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("from Task WHERE done is true order by id");
+            session.getTransaction().commit();
+            return  query.list();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+
+        return List.of();
+    }
+
+    @Override
+    public boolean makeTaskDone(int id) {
+        Session session = sessionFactory.openSession();
+        boolean result = false;
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery(
+                            "UPDATE Task SET done = true WHERE id = :fId")
+                    .setParameter("fId", id);
+            result = query.executeUpdate() > 0;
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+
         return result;
     }
 }

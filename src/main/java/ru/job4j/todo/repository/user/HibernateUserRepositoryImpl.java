@@ -1,6 +1,7 @@
 package ru.job4j.todo.repository.user;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.config.DatasourceConfiguration;
@@ -11,15 +12,15 @@ import java.util.Optional;
 @Repository
 public class HibernateUserRepositoryImpl implements UserRepository {
 
-    private final DatasourceConfiguration datasourceConfiguration;
+    private final SessionFactory sessionFactory;
 
-    public HibernateUserRepositoryImpl(DatasourceConfiguration datasourceConfiguration) {
-        this.datasourceConfiguration = datasourceConfiguration;
+    public HibernateUserRepositoryImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public User save(User user) {
-        Session session = datasourceConfiguration.sf().openSession();
+        Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
             session.save(user);
@@ -36,7 +37,7 @@ public class HibernateUserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> findByLoginAndPassword(String login, String password) {
-        Session session = datasourceConfiguration.sf().openSession();
+        Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
             Query query = session.createQuery("from User as u where u.password = :fPassword and u.login = :fLogin");

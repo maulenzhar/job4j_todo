@@ -18,7 +18,7 @@ public interface TaskService {
 
     boolean deleteById(int id);
 
-    Task makeTaskDone(int id);
+    boolean makeTaskDone(int id);
 
     Optional<Task> getTaskById(int id);
 }

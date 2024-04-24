@@ -15,8 +15,9 @@
 
 ## Требования к окружению
 
-- PostgreSQL 42.5.1
+- PostgreSQL 
 - Maven
+- JDK 17
 
 ## Запуск
 
@@ -24,6 +25,13 @@
 2. Перейдите в директорию проекта: cd job4j_todo
 3. Соберите проект с помощью Maven: mvn clean install
 4. Запустите приложение
+
+## Используемые технологии
+
+1. Spring Boot
+1. Hibernate
+1. Lombok
+1. Thymeleaf
 
 ## Контакты
 

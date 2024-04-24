@@ -33,15 +33,11 @@ public class TaskServiceSimple implements TaskService {
     }
 
     public Collection<Task> findAllDone() {
-        return taskRepository.findAll().stream()
-                .filter(e -> e.isDone())
-                .collect(Collectors.toList());
+        return taskRepository.findAllDone();
     }
 
     public Collection<Task> findAllNew() {
-        return taskRepository.findAll().stream()
-                .filter(e -> !e.isDone())
-                .collect(Collectors.toList());
+        return taskRepository.findAllNew();
     }
 
     @Override
@@ -50,17 +46,8 @@ public class TaskServiceSimple implements TaskService {
     }
 
     @Override
-    public Task makeTaskDone(int id) {
-        Task result = new Task();
-        Optional<Task> taskDone = getTaskById(id);
-        if (taskDone.isPresent()) {
-            Task task = taskDone.get();
-            task.setDone(true);
-            update(task);
-            result = task;
-        }
-
-        return result;
+    public boolean makeTaskDone(int id) {
+        return taskRepository.makeTaskDone(id);
     }
 
     @Override

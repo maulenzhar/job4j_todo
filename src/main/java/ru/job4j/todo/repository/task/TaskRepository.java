@@ -15,4 +15,10 @@ public interface TaskRepository {
     boolean deleteById(int id);
 
     Optional<Task> getTaskById(int id);
+
+    Collection<Task> findAllNew();
+
+    Collection<Task> findAllDone();
+
+    boolean makeTaskDone(int id);
 }

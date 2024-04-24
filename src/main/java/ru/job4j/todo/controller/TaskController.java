@@ -57,7 +57,12 @@ public class TaskController {
 
     @GetMapping("/done/{id}")
     public String doneTask(Model model, @PathVariable int id) {
-        model.addAttribute("task", taskService.makeTaskDone(id));
+        var isUpdated = taskService.makeTaskDone(id);
+        if (!isUpdated) {
+            model.addAttribute("message", "Что то пошло не так");
+            return "error";
+        }
+        model.addAttribute("task", isUpdated);
         return "one-description";
     }
 
