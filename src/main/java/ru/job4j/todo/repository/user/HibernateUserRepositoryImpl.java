@@ -19,20 +19,18 @@ public class HibernateUserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User save(User user) {
+    public Optional<User> save(User user) {
         Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
             session.save(user);
             session.getTransaction().commit();
-
+            return Optional.of(user);
         } catch (Exception e) {
-            session.getTransaction().rollback();
             throw new RuntimeException(e);
         } finally {
             session.close();
         }
-        return user;
     }
 
     @Override
