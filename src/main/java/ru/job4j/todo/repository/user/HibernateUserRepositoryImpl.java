@@ -1,5 +1,6 @@
 package ru.job4j.todo.repository.user;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -9,6 +10,7 @@ import ru.job4j.todo.model.User;
 
 import java.util.Optional;
 
+@Slf4j
 @Repository
 public class HibernateUserRepositoryImpl implements UserRepository {
 
@@ -27,10 +29,12 @@ public class HibernateUserRepositoryImpl implements UserRepository {
             session.getTransaction().commit();
             return Optional.of(user);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            session.getTransaction().rollback();
+            log.error("Internal error: {}", e);
         } finally {
             session.close();
         }
+        return Optional.empty();
     }
 
     @Override
