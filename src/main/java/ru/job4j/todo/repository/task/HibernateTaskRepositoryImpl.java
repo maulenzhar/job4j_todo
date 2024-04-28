@@ -1,13 +1,10 @@
+/*
 package ru.job4j.todo.repository.task;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-import ru.job4j.todo.config.DatasourceConfiguration;
 import ru.job4j.todo.model.Task;
 
 import java.util.Collection;
@@ -15,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class HibernateTaskRepositoryImpl implements ru.job4j.todo.repository.task.TaskRepository {
+public class HibernateTaskRepositoryImpl implements TaskRepository {
     private final SessionFactory sessionFactory;
 
     public HibernateTaskRepositoryImpl(SessionFactory sessionFactory) {
@@ -165,3 +162,4 @@ public class HibernateTaskRepositoryImpl implements ru.job4j.todo.repository.tas
         return result;
     }
 }
+*/
