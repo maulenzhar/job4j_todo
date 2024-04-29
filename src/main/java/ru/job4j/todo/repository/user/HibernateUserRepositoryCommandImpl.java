@@ -17,7 +17,6 @@ public class HibernateUserRepositoryCommandImpl implements UserRepository {
 
     private final CrudRepository crudRepository;
 
-
     @Override
     public Optional<User> save(User user) {
         crudRepository.run(session -> session.persist(user));
@@ -28,7 +27,7 @@ public class HibernateUserRepositoryCommandImpl implements UserRepository {
     public Optional<User> findByLoginAndPassword(String login, String password) {
         return crudRepository.optional(
                 "from User as u where u.password = :fPassword and u.login = :fLogin", User.class,
-                Map.of("fLogin", login,
+                Map.of("fLogin", login, 
                         "fPassword", password)
         );
     }
