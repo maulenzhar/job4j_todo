@@ -1,3 +1,4 @@
+/*
 package ru.job4j.todo.repository.user;
 
 import lombok.extern.slf4j.Slf4j;
@@ -55,3 +56,4 @@ public class HibernateUserRepositoryImpl implements UserRepository {
         return Optional.empty();
     }
 }
+*/
