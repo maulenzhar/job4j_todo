@@ -20,8 +20,8 @@ public class HibernateUserRepositoryCommandImpl implements UserRepository {
     @Override
     public Optional<User> save(User user) {
         return crudRepository.optional(
-                "INSERT INTO User (login, name, password) " +
-                        "VALUES ('test', 'test', 'test')", User.class,
+                "INSERT INTO User (login, name, password) "
+                        + "VALUES ('test', 'test', 'test')", User.class,
                 Map.of("fLogin", user.getLogin(),
                         "fName", user.getName(),
                         "fPassword", user.getPassword())
