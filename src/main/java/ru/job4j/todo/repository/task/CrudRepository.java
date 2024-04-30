@@ -72,7 +72,6 @@ public class CrudRepository {
     public <T> T tx(Function<Session, T> command) {
         Session session = sf.openSession();
         Transaction transaction = null;
-        boolean result = false;
         try {
             transaction = session.beginTransaction();
             T rsl = command.apply(session);
