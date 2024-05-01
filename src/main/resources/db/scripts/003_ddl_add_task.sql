@@ -1,6 +1,4 @@
-ALTER TABLE tasks
-    ADD COLUMN user_id INT NOT NULL,
-    ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id);
+ALTER TABLE tasks ADD COLUMN user_id INT NOT NULL, ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id);
 
 insert into users (id, login, name, password) values (1, 'test', 'test', 'test');
 
