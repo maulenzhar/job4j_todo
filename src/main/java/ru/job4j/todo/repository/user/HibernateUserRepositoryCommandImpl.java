@@ -19,13 +19,13 @@ public class HibernateUserRepositoryCommandImpl implements UserRepository {
 
     @Override
     public Optional<User> save(User user) {
-        return crudRepository.optional(
-                "INSERT INTO User (login, name, password) "
-                        + "VALUES ('test', 'test', 'test')", User.class,
-                Map.of("fLogin", user.getLogin(),
-                        "fName", user.getName(),
-                        "fPassword", user.getPassword())
-        );
+        try {
+            crudRepository.run(session -> session.persist(user));
+            return Optional.of(user);
+        } catch (Exception e) {
+            log.error("Internal error: {}", e);
+        }
+        return Optional.empty();
     }
 
     @Override
