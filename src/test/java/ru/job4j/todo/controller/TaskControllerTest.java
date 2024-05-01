@@ -6,6 +6,7 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.ui.ConcurrentModel;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.service.task.TaskService;
+import ru.job4j.todo.service.user.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,13 +18,15 @@ import static org.mockito.Mockito.when;
 
 class TaskControllerTest {
     private TaskService taskService;
+    private UserService userService;
 
     private TaskController taskController;
 
     @BeforeEach
     public void initServices() {
         taskService = mock(TaskService.class);
-        taskController = new TaskController(taskService);
+        userService = mock(UserService.class);
+        taskController = new TaskController(taskService, userService);
     }
 
     @Test
