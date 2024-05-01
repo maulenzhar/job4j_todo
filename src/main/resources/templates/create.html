@@ -15,9 +15,15 @@
     <div class="container">
         <form class="mt-3" th:action="@{/tasks/create}" method="post">
             <div class="mb-3">
+                <label for="title" class="form-label"><b>Название</b></label>
+                <input class="form-control" id="title" name="title" placeholder=""></input>
+            </div>
+
+            <div class="mb-3">
                 <label for="description" class="form-label"><b>Задача</b></label>
                 <textarea class="form-control" id="description" name="description" rows="15" placeholder=""></textarea>
             </div>
+
             <div class="mb-3 row">
                 <div class="col-6"></div>
                 <div class="col-6">

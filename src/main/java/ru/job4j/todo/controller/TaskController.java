@@ -4,16 +4,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Task;
+import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.task.TaskService;
+import ru.job4j.todo.service.user.UserService;
 
 @Controller
 @RequestMapping("/tasks")
 public class TaskController {
 
     private TaskService taskService;
+    private UserService userService;
 
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, UserService userService) {
         this.taskService = taskService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -40,7 +44,8 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task) {
+    public String create(Model model, @ModelAttribute Task task, @SessionAttribute("user") User user) {
+        task.setUser(user);
         taskService.save(task);
         return "redirect:/tasks";
     }
