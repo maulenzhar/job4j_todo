@@ -3,9 +3,8 @@ package ru.job4j.todo.repository.user;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
-import ru.job4j.todo.repository.task.CrudRepository;
+import ru.job4j.todo.repository.CrudRepository;
 
 import java.util.Map;
 import java.util.Optional;

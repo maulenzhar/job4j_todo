@@ -3,6 +3,7 @@ package ru.job4j.todo.repository.task;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Task;
+import ru.job4j.todo.repository.CrudRepository;
 
 import java.util.Collection;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class HibernateTaskRepositoryCommandImpl implements TaskRepository {
 
     @Override
     public Collection<Task> findAll() {
-        return crudRepository.query("from Task order by id asc", Task.class);
+        return crudRepository.query("from Task t join fetch t.priority order by t.id asc", Task.class);
     }
 
     @Override

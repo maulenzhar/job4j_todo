@@ -3,10 +3,14 @@ package ru.job4j.todo.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.job4j.todo.model.Priority;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.service.priority.PriorityService;
 import ru.job4j.todo.service.task.TaskService;
 import ru.job4j.todo.service.user.UserService;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/tasks")
@@ -14,10 +18,12 @@ public class TaskController {
 
     private TaskService taskService;
     private UserService userService;
+    private PriorityService priorityService;
 
-    public TaskController(TaskService taskService, UserService userService) {
+    public TaskController(TaskService taskService, UserService userService, PriorityService priorityService) {
         this.taskService = taskService;
         this.userService = userService;
+        this.priorityService = priorityService;
     }
 
     @GetMapping
@@ -39,13 +45,16 @@ public class TaskController {
     }
 
     @GetMapping("/create")
-    public String create() {
+    public String create(Model model) {
+        model.addAttribute("priorities", priorityService.findAll());
         return "create";
     }
 
     @PostMapping("/create")
-    public String create(Model model, @ModelAttribute Task task, @SessionAttribute("user") User user) {
+    public String create(@ModelAttribute Task task, @RequestParam String priorityId, @SessionAttribute("user") User user) {
+        Optional<Priority> priority = priorityService.findById(Integer.parseInt(priorityId));
         task.setUser(user);
+        task.setPriority(priority.orElse(null));
         taskService.save(task);
         return "redirect:/tasks";
     }
