@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface PriorityService {
     Collection<Priority> findAll();
+
     Optional<Priority> findById(int priorityId);
 }
