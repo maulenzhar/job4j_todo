@@ -26,7 +26,7 @@
 
             <div class="mb-2">
                 <label for="priority" class="form-label"><b>Приоритет</b></label>
-                <select name="priorityId" id="priority" class="form-control">
+                <select name="priority.id" id="priority" class="form-control">
                     <option th:each="priority: ${priorities}" th:value="${priority.id}" th:text="${priority.name}"></option>
                 </select>
             </div>
