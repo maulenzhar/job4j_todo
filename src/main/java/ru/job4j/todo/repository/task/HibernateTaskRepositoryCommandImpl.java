@@ -40,7 +40,11 @@ public class HibernateTaskRepositoryCommandImpl implements TaskRepository {
 
     @Override
     public Collection<Task> findAll() {
-        return crudRepository.query("from Task t join fetch t.priority order by t.id asc", Task.class);
+        return crudRepository.query("from Task t "
+                        + "join fetch t.priority "
+                        + "join fetch t.taskCategories "
+                        + "order by t.id asc",
+                Task.class);
     }
 
     @Override

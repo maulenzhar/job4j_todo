@@ -7,6 +7,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -30,6 +32,14 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "priority_id")
     private Priority priority;
+
+    @ManyToMany
+    @JoinTable(
+            name = "task_categories",
+            joinColumns = { @JoinColumn(name = "task_id") },
+            inverseJoinColumns = { @JoinColumn(name = "category_id") }
+    )
+    private List<Category> taskCategories = new ArrayList<>();
 
     public Task(String description, LocalDateTime created, boolean done) {
         this.description = description;
