@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class Task {
     private String title;
     private String description;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime created = LocalDateTime.now();
+    private ZonedDateTime created = ZonedDateTime.now(ZoneOffset.UTC);
     private boolean done;
 
     @ManyToOne
@@ -41,7 +42,7 @@ public class Task {
     )
     private List<Category> taskCategories = new ArrayList<>();
 
-    public Task(String description, LocalDateTime created, boolean done) {
+    public Task(String description, ZonedDateTime created, boolean done) {
         this.description = description;
         this.created = created;
         this.done = done;

@@ -1,16 +1,17 @@
 package ru.job4j.todo.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.ui.ConcurrentModel;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.service.category.CategoryService;
 import ru.job4j.todo.service.priority.PriorityService;
 import ru.job4j.todo.service.task.TaskService;
-import ru.job4j.todo.service.user.UserService;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,14 +36,15 @@ class TaskControllerTest {
 
     @Test
     public void whenRequestGetAll() {
-        var task1 = new Task("test1", LocalDateTime.now(), false);
-        var task2 = new Task("test2", LocalDateTime.now(), false);
+        var task1 = new Task("test1", ZonedDateTime.now(), false);
+        var task2 = new Task("test2", ZonedDateTime.now(), false);
 
         var expectedVacancies = List.of(task1, task2);
         when(taskService.findAll()).thenReturn(expectedVacancies);
 
         var model = new ConcurrentModel();
-        var view = taskController.getAll(model);
+        HttpSession httpSession = new MockHttpSession();
+        var view = taskController.getAll(httpSession, model);
         var actualTasks = model.getAttribute("tasks");
 
         assertThat(view).isEqualTo("index");
@@ -51,7 +53,7 @@ class TaskControllerTest {
 
     @Test
     public void whenRequestGetById() {
-        var expectedTask = new Task("test1", LocalDateTime.now(), false);
+        var expectedTask = new Task("test1", ZonedDateTime.now(), false);
 
         var filmSessionArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
         when(taskService.getTaskById(filmSessionArgumentCaptor.capture())).thenReturn(Optional.of(expectedTask));

@@ -1,5 +1,7 @@
 package ru.job4j.todo.controller;
 
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,11 +11,16 @@ import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.category.CategoryService;
 import ru.job4j.todo.service.priority.PriorityService;
 import ru.job4j.todo.service.task.TaskService;
-import ru.job4j.todo.service.user.UserService;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.List;
+import java.util.TimeZone;
 
 @Controller
+@Slf4j
 @RequestMapping("/tasks")
 public class TaskController {
 
@@ -28,8 +35,15 @@ public class TaskController {
     }
 
     @GetMapping
-    public String getAll(Model model) {
-        model.addAttribute("tasks", taskService.findAll());
+    public String getAll(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        Collection<Task> tasks = taskService.findAll();
+        for (Task task : tasks) {
+            log.info("Task: {}", task);
+            task.setCreated(task.getCreated()
+                    .withZoneSameInstant(ZoneId.of(user.getUserZone())));
+        }
+        model.addAttribute("tasks", tasks);
         return "index";
     }
 

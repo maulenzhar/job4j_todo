@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.job4j.todo.dto.TimeZoneDTO;
 import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.user.UserService;
+
+import java.util.ArrayList;
+import java.util.TimeZone;
 
 @Controller
 @RequestMapping("/users")
@@ -22,7 +26,16 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    public String getRegistationPage() {
+    public String getRegistationPage(Model model) {
+        var zones = new ArrayList<TimeZoneDTO>();
+        for (String timeId : TimeZone.getAvailableIDs()) {
+            TimeZone timeZone = TimeZone.getTimeZone(timeId);
+            zones.add(new TimeZoneDTO(timeZone.getID(), timeZone.getDisplayName()));
+        }
+//        for (TimeZone zone : zones) {
+//            System.out.println(zone.getID() + " : " + zone.getDisplayName());
+//        }
+        model.addAttribute("timezones", zones);
         return "users/register";
     }
 

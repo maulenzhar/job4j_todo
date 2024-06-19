@@ -19,6 +19,13 @@
                 <label for="name" class="form-label"><b>Полное имя</b></label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="Иван Иванов" required>
             </div>
+
+            <div class="mb-3">
+                <label for="userzone" class="form-label"><b>Часовой пояс</b></label>
+                <select name="userZone" id="userzone" class="form-control">
+                    <option th:each="timezone: ${timezones}" th:value="${timezone.id}" th:text="${timezone.displayName}"></option>
+                </select>
+            </div>
             <div class="mb-3">
                 <label for="login" class="form-label"><b>Логин</b></label>
                 <input type="text" class="form-control" id="login" name="login" required>
