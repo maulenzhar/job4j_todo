@@ -32,9 +32,9 @@ public class UserController {
             TimeZone timeZone = TimeZone.getTimeZone(timeId);
             zones.add(new TimeZoneDTO(timeZone.getID(), timeZone.getDisplayName()));
         }
-//        for (TimeZone zone : zones) {
-//            System.out.println(zone.getID() + " : " + zone.getDisplayName());
-//        }
+/*        for (TimeZone zone : zones) {
+            System.out.println(zone.getID() + " : " + zone.getDisplayName());
+        }*/
         model.addAttribute("timezones", zones);
         return "users/register";
     }
