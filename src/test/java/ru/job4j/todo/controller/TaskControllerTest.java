@@ -10,7 +10,7 @@ import ru.job4j.todo.model.Task;
 import ru.job4j.todo.service.category.CategoryService;
 import ru.job4j.todo.service.priority.PriorityService;
 import ru.job4j.todo.service.task.TaskService;
-
+import ru.job4j.todo.model.User;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +43,14 @@ class TaskControllerTest {
         when(taskService.findAll()).thenReturn(expectedVacancies);
 
         var model = new ConcurrentModel();
+
+        User user = new User();
+        user.setName("John Doe");
+        user.setUserZone("UTC");
+
         HttpSession httpSession = new MockHttpSession();
+        httpSession.setAttribute("user", user);
+
         var view = taskController.getAll(httpSession, model);
         var actualTasks = model.getAttribute("tasks");
 
